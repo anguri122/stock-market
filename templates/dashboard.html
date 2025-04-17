@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ stock }} Dashboard</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            padding-top: 30px;
+        }
+        .card {
+            margin-bottom: 20px;
+        }
+        .plot-img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            border: 1px solid #ddd;
+        }
+        .section-title {
+            margin-top: 30px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1 class="text-center mb-4">{{ stock }} Stock Dashboard</h1>
+
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card text-white bg-primary">
+                <div class="card-body">
+                    <h5 class="card-title">Predicted Price for {{ date }}</h5>
+                    <p class="card-text fs-4">${{ predicted_value }}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card text-white bg-success">
+                <div class="card-body">
+                    <h5 class="card-title">Prediction Accuracy</h5>
+                    <p class="card-text fs-4">{{ accuracy }}%</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card text-white bg-info">
+                <div class="card-body">
+                    <h5 class="card-title">Today’s Closing Price</h5>
+                    <p class="card-text fs-4">${{ closing_price }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card border-dark">
+                <div class="card-body">
+                    <h5 class="card-title">Mean Absolute Error (MAE)</h5>
+                    <p class="card-text">{{ mae }}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card border-dark">
+                <div class="card-body">
+                    <h5 class="card-title">Root Mean Squared Error (RMSE)</h5>
+                    <p class="card-text">{{ rmse }}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card border-dark">
+                <div class="card-body">
+                    <h5 class="card-title">R² Score</h5>
+                    <p class="card-text">{{ r2 }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card border-dark">
+                <div class="card-body">
+                    <h5 class="card-title">Volume</h5>
+                    <p class="card-text">{{ volume }}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card border-dark">
+                <div class="card-body">
+                    <h5 class="card-title">Market Cap</h5>
+                    <p class="card-text">${{ market_cap }}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card border-dark">
+                <div class="card-body">
+                    <h5 class="card-title">52-Week High / Low</h5>
+                    <p class="card-text">${{ high_52 }} / ${{ low_52 }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="section-title">
+        <h4>Forecast Overview</h4>
+    </div>
+    <div class="text-center mb-4">
+        <img src="data:image/png;base64,{{ plot1_url }}" class="plot-img" alt="Full Forecast Plot">
+    </div>
+
+
+    <div class="section-title">
+        <h4>Zoomed Forecast</h4>
+    </div>
+    <div class="text-center mb-4">
+        <img src="data:image/png;base64,{{ plot2_url }}" class="plot-img" alt="Zoomed Forecast Plot">
+    </div>
+
+
+    <div class="section-title">
+        <h4>Next Predictions</h4>
+    </div>
+    <table class="table table-bordered table-hover">
+        <thead class="table-light">
+            <tr>
+                <th>Date</th>
+                <th>Predicted Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for day in next_days %}
+            <tr>
+                <td>{{ day.date }}</td>
+                <td>${{ day.prediction }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>
